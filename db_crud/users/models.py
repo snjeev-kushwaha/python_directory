@@ -3,8 +3,7 @@ from django.db import models
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    password = models.IntegerField()
-    age = models.IntegerField()
+    password = models.CharField()
     department = models.CharField(max_length=100)
     status = models.CharField(default='active')
     created_at = models.DateTimeField(auto_now_add=True)
