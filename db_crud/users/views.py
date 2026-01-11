@@ -2,14 +2,14 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from .models import Employee
+from .models import User
 
 
 # READ - Get all employees
-def employee_list(request):
+def user_list(request):
     if request.method == 'GET':
-        employees = Employee.objects.all()
-        data = list(employees.values())
+        users = User.objects.all()
+        data = list(users.values())
         return JsonResponse(data, safe=False)
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -17,12 +17,12 @@ def employee_list(request):
 
 # CREATE - Create employee (POST JSON)
 @csrf_exempt
-def employee_create(request):
+def user_create(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
 
-            employee = Employee.objects.create(
+            user = User.objects.create(
                 name=data['name'],
                 email=data['email'],
                 age=data['age'],
@@ -30,7 +30,7 @@ def employee_create(request):
             )
 
             return JsonResponse(
-                {'message': 'Employee created', 'id': employee.id},
+                {'message': 'User created', 'id': user.id},
                 status=201
             )
 
@@ -44,20 +44,20 @@ def employee_create(request):
 
 # UPDATE - Update employee by ID (PUT)
 @csrf_exempt
-def employee_update(request, id):
+def user_update(request, id):
     if request.method in ['PUT', 'PATCH']:
         try:
             data = json.loads(request.body)
-            emp = get_object_or_404(Employee, id=id)
+            usr = get_object_or_404(User, id=id)
 
-            emp.name = data.get('name', emp.name)
-            emp.email = data.get('email', emp.email)
-            emp.age = data.get('age', emp.age)
-            emp.department = data.get('department', emp.department)
+            usr.name = data.get('name', usr.name)
+            usr.email = data.get('email', usr.email)
+            usr.age = data.get('age', usr.age)
+            usr.department = data.get('department', usr.department)
 
-            emp.save()
+            usr.save()
 
-            return JsonResponse({'message': 'Employee updated'})
+            return JsonResponse({'message': 'User updated'})
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
@@ -67,10 +67,10 @@ def employee_update(request, id):
 
 # DELETE - Delete employee
 @csrf_exempt
-def employee_delete(request, id):
+def user_delete(request, id):
     if request.method == 'DELETE':
-        emp = get_object_or_404(Employee, id=id)
-        emp.delete()
-        return JsonResponse({'message': 'Employee deleted'})
+        usr = get_object_or_404(User, id=id)
+        usr.delete()
+        return JsonResponse({'message': 'User deleted'})
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)

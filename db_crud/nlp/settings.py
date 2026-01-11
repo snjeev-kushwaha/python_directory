@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'employees',
+    'users',
 ]
 
 # -------------------------
@@ -41,9 +41,9 @@ MIDDLEWARE = [
 # -------------------------
 # URL / WSGI
 # -------------------------
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'nlp.urls'
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
+WSGI_APPLICATION = 'nlp.wsgi.application'
 
 # -------------------------
 # TEMPLATES
